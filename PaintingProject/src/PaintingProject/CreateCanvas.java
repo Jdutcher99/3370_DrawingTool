@@ -23,15 +23,15 @@ import javafx.scene.Group;
  * @author Grant
  */
 public class CreateCanvas {
-    Scene StartingScene;
-    double width;
-    double height;
+   private Scene StartingScene;
+   private double width;
+   private double height;
     public CreateCanvas(double parawidth, double paraheight){//this class should be used to make the canvas in paintingproject
         width = parawidth;
         height = paraheight;
         ShowCanvas();
     }
-    public void ShowCanvas(){//attempted to use this to make new scene. it failed. Will attempt again.
+    private void ShowCanvas(){//attempted to use this to make new scene. it failed. Will attempt again.
        
         
         
@@ -55,7 +55,7 @@ public class CreateCanvas {
              });
              
              
-         //    root.setTranslateY(height+200);//sets the position of the canvas - planning to make this newCanvas.getheight+100
+         
              pane.getChildren().add(canvas);
          //  pane.getChildren().add(root);
         
