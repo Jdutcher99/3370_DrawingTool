@@ -4,54 +4,66 @@
  * and open the template in the editor.
  */
 package PaintingProject;
-import javafx.application.Application;
+
 
 import javafx.scene.Scene;
 
-
-import javafx.stage.Stage;
-import javafx.scene.text.Text;
-import javafx.scene.shape.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
+//import javafx.scene.text.Text;
+//import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
-import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
+
+
 
 /**
  *
  * @author Grant
  */
 public class CreateCanvas {
-    Scene Startingscene;
+    Scene StartingScene;
     double width;
     double height;
-    Stage CanvasStage = new Stage();
     public CreateCanvas(double parawidth, double paraheight){//this class should be used to make the canvas in paintingproject
         width = parawidth;
         height = paraheight;
         ShowCanvas();
     }
     public void ShowCanvas(){//attempted to use this to make new scene. it failed. Will attempt again.
-        TextField Textheight = new TextField();
-   TextField TextWidth = new TextField();
-   Label HeightDescribe = new Label("Please enter height");
-   Label WidthDescribe = new Label("Please enter width");
-   Label Nothing = new Label("");
-   Button B = new Button("Make Canvas");
-   GridPane root = new GridPane();
-   root.addColumn(0, HeightDescribe,Textheight);
-   root.addColumn(1, WidthDescribe, TextWidth);
-   root.addColumn(2,Nothing, B);
-   Group StartingGroup = new Group(root);
-   Startingscene = new Scene(StartingGroup,width,height);
-   CanvasStage.setScene(Startingscene);
-   CanvasStage.setTitle("Hello there");
+       
+        
+        
+  
+        StackPane pane = new StackPane();
+       
+          Group StartingGroup = new Group(pane);
+         StartingScene = new Scene(StartingGroup,width,height);
+           Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
+             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
+             gc.setStroke(Color.BLACK);//sets the inital color of brush.
+             gc.setLineWidth(1);//width of the brush
+           StartingScene.setOnMousePressed(e->{
+                 gc.beginPath();
+                 gc.lineTo(e.getSceneX(),e.getSceneY());//when you click on the mouse, a black dot will appear at the scene coords (aka, where your mouse is at right now)
+                 gc.stroke();
+             });
+             StartingScene.setOnMouseDragged(e->{
+                 gc.lineTo(e.getSceneX(),e.getSceneY());//dragging the mouse makes lines
+                 gc.stroke();
+             });
+             
+             
+         //    root.setTranslateY(height+200);//sets the position of the canvas - planning to make this newCanvas.getheight+100
+             pane.getChildren().add(canvas);
+         //  pane.getChildren().add(root);
+        
+        
   
     }
-    public Stage getStage(){
-        return CanvasStage;
+    public Scene getScene(){
+        return StartingScene;
     }
     
 }
