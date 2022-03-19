@@ -43,8 +43,7 @@ public class PaintingProject  extends Application {//this page should be the fir
     public void start(Stage primaryStage) throws IOException{
         try {
             Stage CanvasStage = new Stage();
-           // Image ArtImage = new Image(new FileInputStream("ArtFolder/Joker.png"));
-           // System.out.println(ArtImage.getWidth());
+           
            
             TextField Textheight = new TextField();
             TextField TextWidth = new TextField();
@@ -121,17 +120,24 @@ public class PaintingProject  extends Application {//this page should be the fir
            
             MakeCanvaswithArt.setOnAction(e->{
               try {
+                if(Validate(enteredusername,enteredArt)){
                 SetupCanvaswithArt(enteredArt);
+                System.out.println("Uploading Art");
+                CanvasStage.setScene(newCanvas.getScene());
+                CanvasStage.setTitle("Canvas with Art");
+                CanvasStage.show();
+
+                }else{
+                  Label NoAccess = new Label("You do not have access to that file");
+                  root.add(NoAccess, 1, 7);
+                }
               } catch (IOException e1) {
              
                 e1.printStackTrace();
               }
               
               //when you click this button, whatever art you entered in enteredArt will be passed to SetUpCanvas
-            System.out.println("Uploading Art");
-              CanvasStage.setScene(newCanvas.getScene());
-              CanvasStage.setTitle("Canvas with Art");
-              CanvasStage.show();
+           
             }
             );
             
@@ -199,4 +205,10 @@ ArtSearch.SearchArt(pararoot);
 public void SetupCanvaswithArt(TextField ArtID)throws IOException{//width and height parameters are irrelevent here. If ARTID is not nothing, that ART's width and height will be used instead
    newCanvas  = new CreateCanvas(100,500,ArtID.getText());
 }
+private boolean Validate(TextField username, TextField enteredArt)throws IOException{
+  
+  CheckValidation Legal = new CheckValidation(username.getText(),enteredArt.getText());
+  return Legal.getValid();
 }
+}
+

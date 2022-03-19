@@ -31,7 +31,7 @@ public class CheckUserPass {
 private boolean SearchUserName()throws IOException{
     
     String NextUserName ="";
-    Scanner fileIn = new Scanner(new File("Username.txt"));//grabs the contents of username.txt. Depending on what this is running on,y ou may want to change the location of the txt
+    Scanner fileIn = new Scanner(new File("TextFolder/Username.txt"));//grabs the contents of username.txt. Depending on what this is running on,y ou may want to change the location of the txt
     while(fileIn.hasNext()){
         index++;//gets the position of where you found the username (might be pointless, but doesn't hurt)
 NextUserName = fileIn.nextLine();
@@ -47,7 +47,7 @@ if(NextUserName.equals(CheckUsername)){
 }
 private boolean SearchPassword()throws IOException{
     String NextPassword="";
-    Scanner fileIn = new Scanner(new File("Password.txt"));
+    Scanner fileIn = new Scanner(new File("TextFolder/Password.txt"));
     while(fileIn.hasNext()){
         NextPassword = fileIn.nextLine();
         if((NextPassword.equals(CheckPassword))&&(passindex==index)){
