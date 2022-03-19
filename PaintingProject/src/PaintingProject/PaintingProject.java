@@ -5,12 +5,14 @@
  */
 package PaintingProject;
 
-import java.io.IOException;
 
-import javax.sound.sampled.SourceDataLine;
+
+
 
 import javafx.application.Application;
 
+
+import java.io.IOException;
 import javafx.scene.Scene;
 
 import javafx.scene.layout.StackPane;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.shape.*;
@@ -29,16 +32,19 @@ import javafx.scene.shape.*;
  *
  * @author Grant
  */
-public class PaintingProject extends Application {//this page should be the first thing the user sees. Planning to have some sort of login first, but createcanvas will be first for now
+public class PaintingProject  extends Application {//this page should be the first thing the user sees. Planning to have some sort of login first, but createcanvas will be first for now
    CreateCanvas newCanvas;
+   Button MakeCanvaswithArt = new Button("Make Canvas with art");
    Button LoginAttempt = new Button("Log in");
    TextField enteredusername = new TextField();
-           TextField enteredpassword = new TextField();
+    TextField enteredpassword = new TextField();
+    TextField enteredArt = new TextField();
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException{
         try {
             Stage CanvasStage = new Stage();
-            Stage LoginStage = new Stage();
+           // Image ArtImage = new Image(new FileInputStream("ArtFolder/Joker.png"));
+           // System.out.println(ArtImage.getWidth());
            
             TextField Textheight = new TextField();
             TextField TextWidth = new TextField();
@@ -88,20 +94,46 @@ public class PaintingProject extends Application {//this page should be the firs
              
               e1.printStackTrace();
             }
-             Result(root,loginattempt);
+             try {
+              Result(root,loginattempt,enteredusername,enteredArt,MakeCanvaswithArt);
+            } catch (IOException e1) {
+              
+              e1.printStackTrace();
+            }
             
             }
             );
 
             B.setOnAction(e->{
-            SetupCanvas(Textheight,TextWidth);//when you click this button, this sets up the actual canvas based on what you wrote in
+            try {
+              SetupCanvas(Textheight,TextWidth);
+            } catch (IOException e1) {
+              
+              e1.printStackTrace();
+            }
+            
+            //when you click this button, this sets up the actual canvas based on what you wrote in
             CanvasStage.setScene(newCanvas.getScene());
             CanvasStage.setTitle("A new Canvas!");
             CanvasStage.show();
             }
             );
            
-            
+            MakeCanvaswithArt.setOnAction(e->{
+              try {
+                SetupCanvaswithArt(enteredArt);
+              } catch (IOException e1) {
+             
+                e1.printStackTrace();
+              }
+              
+              //when you click this button, whatever art you entered in enteredArt will be passed to SetUpCanvas
+            System.out.println("Uploading Art");
+              CanvasStage.setScene(newCanvas.getScene());
+              CanvasStage.setTitle("Canvas with Art");
+              CanvasStage.show();
+            }
+            );
             
               
    
@@ -124,34 +156,47 @@ public class PaintingProject extends Application {//this page should be the firs
         launch(args);
         
     }
-    public void SetupCanvas(TextField fieldwidth, TextField fieldheight){
+    public void SetupCanvas(TextField fieldwidth, TextField fieldheight) throws IOException{//makes a blank canvas, no artID will be used here
        
        TexttoDouble Translation = new TexttoDouble(fieldwidth, fieldheight);
-       newCanvas = new CreateCanvas(Translation.getwidth(),Translation.getheight());
+       newCanvas = new CreateCanvas(Translation.getwidth(),Translation.getheight(),"Nothing");
        
     }
    
     public boolean LoginCheck(TextField user, TextField pass) throws IOException{
 
-CheckUserPass Checking = new CheckUserPass(user,pass);
+CheckUserPass Checking = new CheckUserPass(user,pass);//Checking automatically checks if the password/username matches with those in the txt files
 
-return Checking.getAnswer();
+return Checking.getAnswer();//checking.getAnswer is the automatic result of the above
     }
-    public void Result(GridPane pararoot,boolean flag){
-     
-Label LoginSuccess = new Label("You are worthy");//prints out whether the login was successful or not.
+    public void Result(GridPane pararoot,boolean flag,TextField username, TextField ArtField, Button UploadTime)throws IOException{
+     String userString =username.getText();
+
+Label LoginSuccess = new Label("You are worthy, "+userString);//prints out whether the login was successful or not.
 Label LoginFailure = new Label("You are unworthy");
+Label EnterDesiredArt = new Label("Enter the art you want to upload");
 Rectangle R = new Rectangle();
 R.setX(0);
 R.setX(0);
-R.setWidth(150);
+R.setWidth(180);
 R.setHeight(20);
 R.setFill(Color.RED);
+
 pararoot.add(R,0,5);
 if(flag){
-pararoot.add(LoginSuccess,0,5);//this should do something else when login is successful, what's the point of a log in?
+  pararoot.add(LoginSuccess,0,5);
+  pararoot.add(EnterDesiredArt,1,5);
+  pararoot.add(ArtField,1,6);
+  pararoot.add(UploadTime,2,6);
+ArtLookUp ArtSearch = new ArtLookUp(userString);
+ArtSearch.SearchArt(pararoot);
+
 }else{
   pararoot.add(LoginFailure,0,5);
 }
+
     }
+public void SetupCanvaswithArt(TextField ArtID)throws IOException{//width and height parameters are irrelevent here. If ARTID is not nothing, that ART's width and height will be used instead
+   newCanvas  = new CreateCanvas(100,500,ArtID.getText());
+}
 }
