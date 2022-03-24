@@ -171,7 +171,7 @@ public class PaintingProject  extends Application {//this page should be the fir
    
     public boolean LoginCheck(TextField user, TextField pass) throws IOException{
 
-CheckUserPass Checking = new CheckUserPass(user,pass);//Checking automatically checks if the password/username matches with those in the txt files
+CheckUserPass Checking = new CheckUserPass(user.getText(),pass.getText());//Checking automatically checks if the password/username matches with those in the txt files
 
 return Checking.getAnswer();//checking.getAnswer is the automatic result of the above
     }

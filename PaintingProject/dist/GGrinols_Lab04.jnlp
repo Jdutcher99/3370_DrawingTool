@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="GGrinols_Lab04.jar" size="6220" download="eager" />
+    <jar href="GGrinols_Lab04.jar" size="10843" download="eager" />
   </resources>
   <jfx:javafx-desc  width="800" height="600" main-class="PaintingProject.PaintingProject"  name="GGrinols_Lab04" />
   <update check="always"/>

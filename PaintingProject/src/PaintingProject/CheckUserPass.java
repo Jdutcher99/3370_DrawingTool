@@ -1,5 +1,5 @@
 package PaintingProject;
-import javafx.scene.control.TextField;
+
 import java.util.*;
 import java.io.*;
 public class CheckUserPass {
@@ -10,9 +10,9 @@ public class CheckUserPass {
     boolean FoundPassword = false;
     int index;
     int passindex;
-    public CheckUserPass(TextField User, TextField Pass)throws IOException{//when you enter a username and password, this class checks to see if there's a match
-        CheckUsername = User.getText();//converts to regular Strings
-        CheckPassword = Pass.getText();
+    public CheckUserPass(String User, String Pass)throws IOException{//when you enter a username and password, this class checks to see if there's a match
+        CheckUsername = User;//converts to regular Strings
+        CheckPassword = Pass;
        FoundUserName =SearchUserName();//checks to see if the username matches
        if(FoundUserName){
           FoundPassword = SearchPassword();//then sees to see if the password matches
