@@ -3,17 +3,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import javafx.scene.Scene;
 
-import javafx.scene.layout.StackPane;
+
+
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-import javafx.scene.Group;
+
+
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Button;
+
 import javafx.scene.shape.*;
 public class ArtLookUp {//first, this class looks at (name).txt to see the pngs that is associate with that name. Batman.txt has Joker, Bane, and Alfred, Lonehero for example
     String name;//second, the class prints out an Arraylist containing these names in front of the screen. Use a loop of labels for this.
