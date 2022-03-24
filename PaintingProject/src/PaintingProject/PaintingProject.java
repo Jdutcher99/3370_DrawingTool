@@ -16,16 +16,16 @@ import java.io.IOException;
 import javafx.scene.Scene;
 
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
 
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
-import javafx.scene.shape.*;
+
 
 
 /**
@@ -39,11 +39,13 @@ public class PaintingProject  extends Application {//this page should be the fir
    TextField enteredusername = new TextField();
     TextField enteredpassword = new TextField();
     TextField enteredArt = new TextField();
+    List CreateList;
+    
     @Override
     public void start(Stage primaryStage) throws IOException{
         try {
             Stage CanvasStage = new Stage();
-           
+           Stage ListStage = new Stage();
            
             TextField Textheight = new TextField();
             TextField TextWidth = new TextField();
@@ -93,13 +95,17 @@ public class PaintingProject  extends Application {//this page should be the fir
              
               e1.printStackTrace();
             }
-             try {
-              Result(root,loginattempt,enteredusername,enteredArt,MakeCanvaswithArt);
-            } catch (IOException e1) {
-              
-              e1.printStackTrace();
+            if(loginattempt){
+              try {
+                CreateList(enteredusername, MakeCanvaswithArt, root, enteredArt);
+              } catch (IOException e1) {
+                
+                e1.printStackTrace();
+              }
+             ListStage.setScene(CreateList.getScene());
+             ListStage.setTitle("Here is your result");
+             ListStage.show();
             }
-            
             }
             );
 
@@ -127,10 +133,8 @@ public class PaintingProject  extends Application {//this page should be the fir
                 CanvasStage.setTitle("Canvas with Art");
                 CanvasStage.show();
 
-                }else{
-                  Label NoAccess = new Label("You do not have access to that file");
-                  root.add(NoAccess, 1, 7);
                 }
+                
               } catch (IOException e1) {
              
                 e1.printStackTrace();
@@ -175,33 +179,13 @@ CheckUserPass Checking = new CheckUserPass(user.getText(),pass.getText());//Chec
 
 return Checking.getAnswer();//checking.getAnswer is the automatic result of the above
     }
-    public void Result(GridPane pararoot,boolean flag,TextField username, TextField ArtField, Button UploadTime)throws IOException{
-     String userString =username.getText();
-
-Label LoginSuccess = new Label("You are worthy, "+userString);//prints out whether the login was successful or not.
-Label LoginFailure = new Label("You are unworthy");
-Label EnterDesiredArt = new Label("Enter the art you want to upload");
-Rectangle R = new Rectangle();
-R.setX(0);
-R.setX(0);
-R.setWidth(180);
-R.setHeight(20);
-R.setFill(Color.RED);
-
-pararoot.add(R,0,5);
-if(flag){
-  pararoot.add(LoginSuccess,0,5);
-  pararoot.add(EnterDesiredArt,1,5);
-  pararoot.add(ArtField,1,6);
-  pararoot.add(UploadTime,2,6);
-ArtLookUp ArtSearch = new ArtLookUp(userString);
-ArtSearch.SearchArt(pararoot);
-
-}else{
-  pararoot.add(LoginFailure,0,5);
-}
-
-    }
+    public void CreateList(TextField user, Button UploadTime,GridPane Grid, TextField EnterArt)throws IOException{
+      
+        CreateList = new List(user.getText(), UploadTime, enteredArt);//each time createlist is triggered, a NEW CreateList is made.
+      }
+      
+  
+    
 public void SetupCanvaswithArt(TextField ArtID)throws IOException{//width and height parameters are irrelevent here. If ARTID is not nothing, that ART's width and height will be used instead
    newCanvas  = new CreateCanvas(100,500,ArtID.getText());
 }

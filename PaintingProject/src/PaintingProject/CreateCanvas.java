@@ -15,12 +15,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+
 import javafx.scene.layout.StackPane;
 //import javafx.scene.text.Text;
 //import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
-import javafx.event.EventHandler;
+
 import javafx.scene.Group;
 
 
