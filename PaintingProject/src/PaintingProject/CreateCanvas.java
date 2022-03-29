@@ -9,18 +9,12 @@ package PaintingProject;
 import javafx.scene.Scene;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-
 import javafx.scene.layout.StackPane;
-//import javafx.scene.text.Text;
-//import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
-
 import javafx.scene.Group;
 
 
@@ -34,11 +28,12 @@ public class CreateCanvas {
    private Scene StartingScene;
    private double width;
    private double height;
+   private String Username;
    double Xstamp=0;
     double Ystamp=0;
    private String Art = "Nothing";
    Image ArtImage;
-    public CreateCanvas(double parawidth, double paraheight, String ArtID) throws IOException{//this class should be used to make the canvas in paintingproject
+    public CreateCanvas(double parawidth, double paraheight, String ArtID,String Name) throws IOException{//this class should be used to make the canvas in paintingproject
         if(ArtID.equals(Art)){
             width = parawidth;
             height = paraheight;
@@ -46,20 +41,18 @@ public class CreateCanvas {
             Art = ArtID;
             CreateFilledCanvas();
         }
-        
+        Username = Name;
         
         ShowCanvas();
     }
+    
     private void ShowCanvas()throws IOException{//attempted to use this to make new scene. it failed. Will attempt again.
         Group StartingGroup;
-        ImageView Viewing;
+        
         
         StackPane pane = new StackPane();
         StartingGroup = new Group(pane);
-       if(!Art.equals("Nothing")){//if we are setting an image as a background, we add it to pane to allow editing the image
-        Viewing = new ImageView(ArtImage);
-        pane.getChildren().add(Viewing);
-       }
+      
       Image StampImage = new Image(new FileInputStream("ArtFolder/paint2.png"));
       
       
@@ -69,6 +62,11 @@ public class CreateCanvas {
              GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
              gc.setStroke(Color.BLACK);//sets the inital color of brush.
              gc.setLineWidth(1);//width of the brush
+             if(!Art.equals("Nothing")){//if we are setting an image as a background, we add it to pane to allow editing the image
+                gc.drawImage(ArtImage,0,0);
+               }
+
+
            StartingScene.setOnMousePressed(e->{
             
                  gc.beginPath();
@@ -84,10 +82,7 @@ public class CreateCanvas {
                 KeyCode Code = e.getCode();
                 String CodeKey = Code.getName();
                 if(CodeKey.equals("D")){
-                   ImageView StampView = new ImageView(StampImage);
-                   StampView.setLayoutX(Xstamp);
-                   StampView.setLayoutY(Ystamp);
-                   StartingGroup.getChildren().add(StampView); 
+                   gc.drawImage(StampImage,Xstamp,Ystamp);
                 }
 
              } );

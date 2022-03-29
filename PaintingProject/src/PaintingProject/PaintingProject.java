@@ -169,7 +169,7 @@ public class PaintingProject  extends Application {//this page should be the fir
     public void SetupCanvas(TextField fieldwidth, TextField fieldheight) throws IOException{//makes a blank canvas, no artID will be used here
        
        TexttoDouble Translation = new TexttoDouble(fieldwidth, fieldheight);
-       newCanvas = new CreateCanvas(Translation.getwidth(),Translation.getheight(),"Nothing");
+       newCanvas = new CreateCanvas(Translation.getwidth(),Translation.getheight(),"Nothing","NoName");
        
     }
    
@@ -187,7 +187,7 @@ return Checking.getAnswer();//checking.getAnswer is the automatic result of the 
   
     
 public void SetupCanvaswithArt(TextField ArtID)throws IOException{//width and height parameters are irrelevent here. If ARTID is not nothing, that ART's width and height will be used instead
-   newCanvas  = new CreateCanvas(100,500,ArtID.getText());
+   newCanvas  = new CreateCanvas(100,500,ArtID.getText(),enteredusername.getText());
 }
 private boolean Validate(TextField username, TextField enteredArt)throws IOException{
   
