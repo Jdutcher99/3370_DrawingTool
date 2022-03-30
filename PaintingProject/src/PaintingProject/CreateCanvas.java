@@ -57,8 +57,9 @@ public class CreateCanvas {
       
       
 
-         StartingScene = new Scene(StartingGroup,width,height);
+         StartingScene = new Scene(StartingGroup,width,height+50);
            Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
+           canvas.setTranslateY(50);
              GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
              gc.setStroke(Color.BLACK);//sets the inital color of brush.
              gc.setLineWidth(1);//width of the brush
@@ -70,13 +71,13 @@ public class CreateCanvas {
            StartingScene.setOnMousePressed(e->{
             
                  gc.beginPath();
-                 gc.lineTo(e.getSceneX(),e.getSceneY());//when you click on the mouse, a black dot will appear at the scene coords (aka, where your mouse is at right now)
+                 gc.lineTo(e.getSceneX(),e.getSceneY()-50);//when you click on the mouse, a black dot will appear at the scene coords (aka, where your mouse is at right now)
                  gc.stroke();
              });
 
              StartingScene.setOnMouseMoved(e->{
                 Xstamp = e.getSceneX();
-                Ystamp = e.getSceneY();
+                Ystamp = e.getSceneY()-50;
              });
              StartingScene.setOnKeyPressed(e ->{
                 KeyCode Code = e.getCode();
@@ -88,7 +89,7 @@ public class CreateCanvas {
              } );
             
              StartingScene.setOnMouseDragged(e->{
-                 gc.lineTo(e.getSceneX(),e.getSceneY());//dragging the mouse makes lines
+                 gc.lineTo(e.getSceneX(),e.getSceneY()-50);//dragging the mouse makes lines
                  gc.stroke();
              });
             
