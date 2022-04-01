@@ -11,7 +11,6 @@ package PaintingProject;
 
 import javafx.application.Application;
 
-
 import java.io.IOException;
 import javafx.scene.Scene;
 
