@@ -7,14 +7,21 @@ package PaintingProject;
 
 
 import javafx.scene.Scene;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -64,7 +71,7 @@ public class CreateCanvas {
         StackPane pane = new StackPane();
         pane.setTranslateY(50);
         StartingGroup = new Group(pane, grid);
-      pane.getChildren().add(canvas);
+        pane.getChildren().add(canvas);
         Image StampImage = new Image(new FileInputStream("ArtFolder/paint2.png"));
         
         grid.setVgap(10);
@@ -83,6 +90,10 @@ public class CreateCanvas {
       //Color picker
         ColorPicker pick = new ColorPicker();
         grid.add(pick, 4, 0);
+
+      //Save Button
+        Button saveButton = new Button("save");
+        grid.add(saveButton,5,0);  
       
 
         StartingScene = new Scene(StartingGroup,width,height+50);
@@ -132,6 +143,31 @@ public class CreateCanvas {
                  gc.lineTo(e.getSceneX(),e.getSceneY() - 50);//dragging the mouse makes lines
                  gc.stroke();
              });
+
+             
+             saveButton.setOnAction(e->{
+                WritableImage wim = new WritableImage(555, 555); 
+                canvas.snapshot(null, wim);
+
+                File file = new File("CanvasImage.png");
+                
+                // DirectoryChooser directoryChooser = new DirectoryChooser();
+                // File directory = directoryChooser.showDialog(btnSave.getScene().getWindow());
+                // if (directory != null) {
+                //     for (int i = 0; i < imageList.getSize(); i++) {
+                //         File file = new File(directory, i+".jpg");
+                //         // save image to file
+                    
+                // }
+
+
+                try {
+                    ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
+                } catch (Exception s) {
+                }
+
+            });
+            
             
              
          
