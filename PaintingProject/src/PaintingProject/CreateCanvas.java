@@ -14,6 +14,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.junit.runners.model.TestClass;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -92,9 +94,13 @@ public class CreateCanvas {
         grid.add(pick, 4, 0);
 
       //Save Button
-        Button saveButton = new Button("save");
-        grid.add(saveButton,5,0);  
-      
+        Button saveButton = new Button("Save");
+        grid.add(saveButton,6,0);  
+
+      //Change File Name
+        TextField fileName = new TextField();
+        fileName.setText("Image Name");   
+        grid.add(fileName, 5, 0);   
 
         StartingScene = new Scene(StartingGroup,width,height+50);
             
@@ -146,10 +152,11 @@ public class CreateCanvas {
 
              
              saveButton.setOnAction(e->{
-                WritableImage wim = new WritableImage(555, 555); 
-                canvas.snapshot(null, wim);
+                WritableImage wim = new WritableImage(960, 540); 
+                canvas.snapshot(null, wim); //takes a snapshot of the canvas
 
-                File file = new File("CanvasImage.png");
+                String artName = fileName.getText();
+                File file = new File(artName + ".png");//names the image
                 
                 // DirectoryChooser directoryChooser = new DirectoryChooser();
                 // File directory = directoryChooser.showDialog(btnSave.getScene().getWindow());
