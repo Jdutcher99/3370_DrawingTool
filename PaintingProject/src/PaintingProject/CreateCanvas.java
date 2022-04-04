@@ -84,7 +84,7 @@ public class CreateCanvas {
         StampGrid.add(howToStamp, 0, 2);
         //Stamp newStamp = new Stamp(stampChoice);
         //String g;
-        
+        StampGrid.setTranslateY(50);
         
 
         
