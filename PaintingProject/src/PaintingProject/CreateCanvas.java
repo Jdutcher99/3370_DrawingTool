@@ -6,29 +6,24 @@
 package PaintingProject;
 
 
-import javafx.scene.Scene;
-
 import java.io.File;
+import javafx.scene.Scene;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.junit.runners.model.TestClass;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -49,6 +44,7 @@ public class CreateCanvas {
    double Xstamp=0;
    double Ystamp=0;
    private String Art = "Nothing";
+   String stampChange;
    Image ArtImage;
    
    double size;
@@ -61,27 +57,48 @@ public class CreateCanvas {
             CreateFilledCanvas();
         }
         Username = Name;
-        
         ShowCanvas();
     }
     
     private void ShowCanvas()throws IOException{//attempted to use this to make new scene. it failed. Will attempt again.
         Group StartingGroup;
-        Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
-            
-        GridPane grid = new GridPane();
-        StackPane pane = new StackPane();
-        pane.setTranslateY(50);
-        StartingGroup = new Group(pane, grid);
-        pane.getChildren().add(canvas);
-        Image StampImage = new Image(new FileInputStream("ArtFolder/paint2.png"));
         
-        grid.setVgap(10);
-        grid.setHgap(10);
+        GridPane grid = new GridPane();
+        grid.setVgap(15);
+        grid.setHgap(15);
+        
+        StackPane pane = new StackPane();
+        
+        GridPane stampGrid = new GridPane();
+        StartingGroup = new Group(pane, grid);
+        
+        
+        //choose stamp stuff
+        ChoiceBox<String> stampChoice = new ChoiceBox<>();
+        Label stampLabel = new Label("Choose your Stamp");
+        Label howToStamp = new Label("Press D on keyboard to use stamp.");
+        String[] stampNames = {"Cookie", "Diondre", "Grant", "Heart", "Jerrod", "Michael", "Money", "Paint", "Paint2", "SmileyFace"};
+        stampChoice.getItems().addAll(stampNames);
+        
+        
+//        stampGrid.setTranslateX(width + 20);
+//        stampGrid.add(stampChoice, , 0);
+//        stampGrid.add(howToStamp, 0, 1);
+//        stampGrid.add(stampLabel, 0, 2);
+
+        grid.add(stampLabel, 4, 0);
+        grid.add(stampChoice, 5, 0);
+        grid.add(howToStamp, 4, 1);
+        
+        Stamp newStamp = new Stamp(stampChoice.getValue());
+        //String g;
+        
+        
+
         
         pane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.
                     SOLID, null, null)));
-        
+                
       //change size of brush textfield
         TextField bsText = new TextField();
         bsText.setText("Enter size value");
@@ -91,18 +108,12 @@ public class CreateCanvas {
       
       //Color picker
         ColorPicker pick = new ColorPicker();
-        grid.add(pick, 4, 0);
+        grid.add(pick, 3, 0);
+      
 
-      //Save Button
-        Button saveButton = new Button("Save");
-        grid.add(saveButton,6,0);  
-
-      //Change File Name
-        TextField fileName = new TextField();
-        fileName.setText("Image Name");   
-        grid.add(fileName, 5, 0);   
-
-        StartingScene = new Scene(StartingGroup,width,height+50);
+        StartingScene = new Scene(StartingGroup,width,height);
+            Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
+            canvas.setTranslateY(50);
             
             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
             gc.setStroke(Color.BLACK);//sets the inital color of brush.
@@ -114,11 +125,11 @@ public class CreateCanvas {
             ChangeBrushSize newBrush = new ChangeBrushSize(gc, size);
             });
             
+            //change color
             pick.setValue(Color.BLACK);
             pick.setOnAction(e-> {
                 gc.setStroke(pick.getValue());
             });
-      
              
              if(!Art.equals("Nothing")){//if we are setting an image as a background, we add it to pane to allow editing the image
                 gc.drawImage(ArtImage,0,0);
@@ -128,58 +139,35 @@ public class CreateCanvas {
            StartingScene.setOnMousePressed(e->{
             
                  gc.beginPath();
-                 gc.lineTo(e.getSceneX(),e.getSceneY() - 50);//when you click on the mouse, a black dot will appear at the scene coords (aka, where your mouse is at right now)
+                 gc.lineTo(e.getSceneX(),e.getSceneY() - 100);//when you click on the mouse, a black dot will appear at the scene coords (aka, where your mouse is at right now)
                  gc.stroke();
              });
 
              StartingScene.setOnMouseMoved(e->{
                 Xstamp = e.getSceneX();
-                Ystamp = e.getSceneY() - 50;
+                Ystamp = e.getSceneY() - 100;
              });
-             StartingScene.setOnKeyPressed(e ->{
-                KeyCode Code = e.getCode();
-                String CodeKey = Code.getName();
-                if(CodeKey.equals("D")){
-                   gc.drawImage(StampImage,Xstamp,Ystamp);
-                }
+            
+            
+            StartingScene.setOnKeyPressed(ex ->{
+                KeyCode Code = ex.getCode();
+                String CodeKey = Code.getName();            
 
-             } );
+                    if(CodeKey.equals("D")){
+                        gc.drawImage(newStamp.getPng(),Xstamp,Ystamp);
+                        }
+                });
+             
             
              StartingScene.setOnMouseDragged(e->{
                  gc.lineTo(e.getSceneX(),e.getSceneY() - 50);//dragging the mouse makes lines
                  gc.stroke();
              });
-
-             
-             saveButton.setOnAction(e->{
-                WritableImage wim = new WritableImage(960, 540); 
-                canvas.snapshot(null, wim); //takes a snapshot of the canvas
-
-                String artName = fileName.getText();
-                File file = new File(artName + ".png");//names the image
-                
-                // DirectoryChooser directoryChooser = new DirectoryChooser();
-                // File directory = directoryChooser.showDialog(btnSave.getScene().getWindow());
-                // if (directory != null) {
-                //     for (int i = 0; i < imageList.getSize(); i++) {
-                //         File file = new File(directory, i+".jpg");
-                //         // save image to file
-                    
-                // }
-
-
-                try {
-                    ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
-                } catch (Exception s) {
-                }
-
-            });
-            
             
              
          
-           
-         
+             pane.getChildren().add(canvas);
+         //  pane.getChildren().add(root);
         
         
   
@@ -193,6 +181,7 @@ public class CreateCanvas {
         height= ArtImage.getHeight();
 
 
-    }
+   }
+
     
 }
