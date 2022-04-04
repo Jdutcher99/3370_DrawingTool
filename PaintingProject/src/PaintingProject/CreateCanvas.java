@@ -9,7 +9,8 @@ package PaintingProject;
 import javafx.scene.Scene;
 import java.io.FileInputStream;
 import java.io.IOException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -68,7 +69,7 @@ public class CreateCanvas {
         StackPane pane = new StackPane();
         StartingGroup = new Group(pane, grid,StampGrid);
         
-        pane.setTranslateY(50);
+        
         //choose stamp stuff
         ChoiceBox<String> stampChoice = new ChoiceBox<String>();
         Label stampLabel = new Label("Choose your Stamp");
@@ -102,7 +103,7 @@ public class CreateCanvas {
         grid.add(pick, 4, 0);
       
 
-        StartingScene = new Scene(StartingGroup,width+200,height);
+        StartingScene = new Scene(StartingGroup,width,height);
             Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
             canvas.setTranslateY(50);
             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
