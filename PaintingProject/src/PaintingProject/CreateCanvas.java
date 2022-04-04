@@ -8,22 +8,15 @@ package PaintingProject;
 
 import javafx.scene.Scene;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.junit.runners.model.TestClass;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -68,7 +61,7 @@ public class CreateCanvas {
     private void ShowCanvas()throws IOException{//attempted to use this to make new scene. it failed. Will attempt again.
         Group StartingGroup;
         Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
-            
+        Save SaveClass = new Save(canvas);
         GridPane grid = new GridPane();
         StackPane pane = new StackPane();
         pane.setTranslateY(50);
@@ -96,13 +89,14 @@ public class CreateCanvas {
       //Save Button
         Button saveButton = new Button("Save");
         grid.add(saveButton,6,0);  
-
-      //Change File Name
         TextField fileName = new TextField();
-        fileName.setText("Image Name");   
-        grid.add(fileName, 5, 0);   
-
-        StartingScene = new Scene(StartingGroup,width,height+50);
+        fileName.setText("Image Name");
+      //Change File Name
+      if(!Username.equals("NoName")){
+           
+        grid.add(fileName, 5, 0);   //you can only save if you are logged in
+      }
+        StartingScene = new Scene(StartingGroup,width+400,height+50);
             
             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
             gc.setStroke(Color.BLACK);//sets the inital color of brush.
@@ -152,11 +146,12 @@ public class CreateCanvas {
 
              
              saveButton.setOnAction(e->{
-                WritableImage wim = new WritableImage(960, 540); 
-                canvas.snapshot(null, wim); //takes a snapshot of the canvas
-
-                String artName = fileName.getText();
-                File file = new File(artName + ".png");//names the image
+              try {
+                SaveClass.SaveImage(fileName.getText(), Username);
+            } catch (IOException e1) {
+               
+                e1.printStackTrace();
+            }
                 
                 // DirectoryChooser directoryChooser = new DirectoryChooser();
                 // File directory = directoryChooser.showDialog(btnSave.getScene().getWindow());
@@ -166,12 +161,7 @@ public class CreateCanvas {
                 //         // save image to file
                     
                 // }
-
-
-                try {
-                    ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
-                } catch (Exception s) {
-                }
+              
 
             });
             
