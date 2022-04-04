@@ -79,9 +79,9 @@ public class CreateCanvas {
         stampChoice.setValue("Cookie");
         
         StampGrid.setTranslateX(width + 20);
-        StampGrid.add(stampLabel, 0, 2);
+        StampGrid.add(stampLabel, 0, 1);
         StampGrid.add(stampChoice, 0, 0);
-        StampGrid.add(howToStamp, 0, 1);
+        StampGrid.add(howToStamp, 0, 2);
         //Stamp newStamp = new Stamp(stampChoice);
         //String g;
         
@@ -102,10 +102,10 @@ public class CreateCanvas {
         ColorPicker pick = new ColorPicker();
         grid.add(pick, 4, 0);
       
-
-        StartingScene = new Scene(StartingGroup,width,height);
+pane.setTranslateY(50);
+        StartingScene = new Scene(StartingGroup,width+200,height);
             Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
-            canvas.setTranslateY(50);
+            
             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
             gc.setStroke(Color.BLACK);//sets the inital color of brush.
             gc.setLineWidth(1);//width of the brush

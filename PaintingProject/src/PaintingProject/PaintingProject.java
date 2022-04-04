@@ -48,8 +48,8 @@ public class PaintingProject  extends Application {//this page should be the fir
            
             TextField Textheight = new TextField();
             TextField TextWidth = new TextField();
-            Label HeightDescribe = new Label("Please enter height");
-            Label WidthDescribe = new Label("Please enter width");//from 38 to 76 it's a whole lot of visuals and giving it life.
+            Label HeightDescribe = new Label("Please enter width");
+            Label WidthDescribe = new Label("Please enter height");//from 38 to 76 it's a whole lot of visuals and giving it life.
             
            
             Button B = new Button("Make Canvas");
