@@ -66,6 +66,7 @@ public class CreateCanvas {
         grid.setVgap(15);
         grid.setHgap(15);
         
+        
         StackPane pane = new StackPane();
         StartingGroup = new Group(pane, grid,StampGrid);
         
@@ -74,7 +75,7 @@ public class CreateCanvas {
         ChoiceBox<String> stampChoice = new ChoiceBox<String>();
         Label stampLabel = new Label("Choose your Stamp");
         Label howToStamp = new Label("Press D on keyboard to use stamp.");
-        String[] stampNames = {"Cookie", "Diondre", "Grant", "Heart", "Jerrod", "Michael", "Money", "Paint", "Paint2", "SmileyFace"};
+        String[] stampNames = {"Cookie", "Diondre", "Grant", "Heart", "Jerrod", "Michael", "Money", "Paint", "Paint2", "SmileyFace","Prof"};
         stampChoice.getItems().addAll(stampNames);
         stampChoice.setValue("Cookie");
         
@@ -129,7 +130,7 @@ pane.setTranslateY(50);
             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
             gc.setStroke(Color.BLACK);//sets the inital color of brush.
             gc.setLineWidth(1);//width of the brush
-             
+            ChangeColor ChangeTheColor = new ChangeColor(gc);
             //Changes size of brush
             sizeButt.setOnAction(e -> {
             size = Double.parseDouble(bsText.getText());
@@ -139,7 +140,7 @@ pane.setTranslateY(50);
             //change color
             pick.setValue(Color.BLACK);
             pick.setOnAction(e-> {
-                gc.setStroke(pick.getValue());
+                ChangeTheColor.SetColor(pick.getValue());
             });
              
              if(!Art.equals("Nothing")){//if we are setting an image as a background, we add it to pane to allow editing the image
