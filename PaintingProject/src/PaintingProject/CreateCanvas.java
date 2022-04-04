@@ -61,13 +61,13 @@ public class CreateCanvas {
     
     private void ShowCanvas()throws IOException{//attempted to use this to make new scene. it failed. Will attempt again.
         Group StartingGroup;
-        
+        GridPane StampGrid = new GridPane();
         GridPane grid = new GridPane();
         grid.setVgap(15);
         grid.setHgap(15);
         
         StackPane pane = new StackPane();
-        StartingGroup = new Group(pane, grid);
+        StartingGroup = new Group(pane, grid,StampGrid);
         
         
         //choose stamp stuff
@@ -76,12 +76,12 @@ public class CreateCanvas {
         Label howToStamp = new Label("Press D on keyboard to use stamp.");
         String[] stampNames = {"Cookie", "Diondre", "Grant", "Heart", "Jerrod", "Michael", "Money", "Paint", "Paint2", "SmileyFace"};
         stampChoice.getItems().addAll(stampNames);
+        stampChoice.setValue("Cookie");
         
-        
-        grid.add(stampLabel, 0, 3);
-        grid.add(stampChoice, 1, 3);
-        grid.add(howToStamp, 0, 4);
-        
+        StampGrid.setTranslateX(width + 20);
+        StampGrid.add(stampLabel, 0, 2);
+        StampGrid.add(stampChoice, 0, 0);
+        StampGrid.add(howToStamp, 0, 1);
         //Stamp newStamp = new Stamp(stampChoice);
         //String g;
         
@@ -140,31 +140,19 @@ public class CreateCanvas {
              });
             
             
-            //Image stampImage = new Image(new FileInputStream("ArtFolder/Diondre.png"));
+           
             
             
-            stampChoice.setOnAction(e -> {
-                String g = getChoice(stampChoice);
-            
-                Stamp cuz = new Stamp(g);
-                
-                Image stampImage = cuz.getPng();
-                
-                StartingScene.setOnKeyPressed(ex ->{
-                    KeyCode Code = ex.getCode();
-                    String CodeKey = Code.getName();
-                    
-                    
+            StartingScene.setOnKeyPressed(e ->{//if someone pressed the D key, a sticker, that is set to whatever value stampChoice is at, will be printed at wherever the mouse is at
+                KeyCode Code = e.getCode();
+                String CodeKey = Code.getName();
+                Stamp Stamping = new Stamp(stampChoice.getValue());//makes an image based on the string
 
-                    if(CodeKey.equals("D")){
-                        System.out.println(g);
-                        gc.drawImage(stampImage,Xstamp,Ystamp);
-                        }
-                });
+                if(CodeKey.equals("D")){
+                   
+                    gc.drawImage(Stamping.getPng(),Xstamp,Ystamp);//returns the img
+                }
             });
-            
-                
-             
 
              
             // 
@@ -179,11 +167,11 @@ public class CreateCanvas {
              
          
              pane.getChildren().add(canvas);
-         //  pane.getChildren().add(root);
+      
         
         
   
-    }
+            }
     public Scene getScene(){
         return StartingScene;
     }
@@ -195,10 +183,5 @@ public class CreateCanvas {
 
    }
     
-    public String getChoice(ChoiceBox<String> stampChoice){
-        String s = stampChoice.getValue();
-        //System.out.println(s);
-        return s;
-    }
     
 }
