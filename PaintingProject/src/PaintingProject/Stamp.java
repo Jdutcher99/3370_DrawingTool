@@ -21,7 +21,7 @@ public class Stamp {
     public Stamp(String goku) {
         stampName = goku;
         try {
-            stampImage = new Image(new FileInputStream("ArtFolder/" + stampName + "png"));
+            stampImage = new Image(new FileInputStream("ArtFolder/" + stampName + ".png"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Stamp.class.getName()).log(Level.SEVERE, null, ex);
         }

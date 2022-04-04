@@ -103,7 +103,7 @@ public class CreateCanvas {
         grid.add(pick, 4, 0);
       
 
-        StartingScene = new Scene(StartingGroup,width,height);
+        StartingScene = new Scene(StartingGroup,width+200,height);
             Canvas canvas = new Canvas(width,height);//width of height of the actual canvas. Planning to call newCanvas into this.
             canvas.setTranslateY(50);
             GraphicsContext gc = canvas.getGraphicsContext2D();//this can be considered as the brush
